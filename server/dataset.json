@@ -1,0 +1,22 @@
+[
+    {
+        "instruction": "Evaluate the following student's answer based on the provided answer key. Provide a score out of 10 and a brief feedback.",
+        "input": "Answer Key: Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water. \nStudent Answer: Plants make their own food using sunlight, water, and CO2.",
+        "output": "Score: 8/10. Feedback: The student captured the core concept well, mentioning sunlight, water, and carbon dioxide. However, using the specific term 'photosynthesis' and 'synthesize foods' would have made the answer more complete."
+    },
+    {
+        "instruction": "Generate a 3-question theoretical assignment for high school Physics on the topic of Newton's Laws of Motion.",
+        "input": "",
+        "output": "Question 1: Explain Newton's First Law of Motion and provide a real-world example of inertia.\nQuestion 2: How does Newton's Second Law relate force, mass, and acceleration? Provide the formula and briefly explain each variable.\nQuestion 3: Describe a scenario where Newton's Third Law (Action-Reaction) is clearly demonstrated and identify the two forces interacting."
+    },
+    {
+        "instruction": "Evaluate this math problem solution. Tell me if it's correct and where the mistake is if any.",
+        "input": "Problem: Solve for x: 2x + 5 = 15. \nStudent Answer: \n2x + 5 = 15 \n2x = 10 \nx = 10 - 2 \nx = 8",
+        "output": "Score: 0/10. Feedback: The student correctly subtracted 5 from both sides to get 2x = 10. However, in the next step, instead of dividing both sides by 2, the student incorrectly subtracted 2. The correct final step should be x = 10 / 2, which gives x = 5."
+    },
+    {
+        "instruction": "Generate an answer for the following question based on the text.",
+        "input": "Text: The mitochondria is known as the powerhouse of the cell because it generates most of the cell's supply of adenosine triphosphate (ATP), used as a source of chemical energy. \nQuestion: Why is the mitochondria called the powerhouse of the cell?",
+        "output": "The mitochondria is called the powerhouse of the cell because it generates the majority of the cell's ATP (adenosine triphosphate), which serves as the primary source of chemical energy."
+    }
+]

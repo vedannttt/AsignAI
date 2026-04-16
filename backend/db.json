@@ -1,0 +1,60 @@
+{
+  "assignments": [
+    {
+      "id": "17757119257740.5226420166992103",
+      "name": "CC exp.6 C38 1.pdf",
+      "size": 803044,
+      "url": "https://res.cloudinary.com/dalqoh0rr/raw/upload/v1775711924/assignments/CC%20exp.6%20C38%201.pdf",
+      "uploadedAt": "2026-04-09T05:18:45.774Z",
+      "dueDateRaw": "2026-04-10T05:18:42.615Z"
+    },
+    {
+      "id": "17757121645240.4209433992059197",
+      "name": "CC Exp7 C40 (2).docx",
+      "size": 837248,
+      "url": "https://res.cloudinary.com/dalqoh0rr/raw/upload/v1775712163/assignments/CC%20Exp7%20C40%20%282%29.docx",
+      "uploadedAt": "2026-04-09T05:22:44.524Z",
+      "dueDateRaw": "2026-04-10T05:22:41.208Z"
+    },
+    {
+      "id": "17760717067750.5972766232686609",
+      "name": "CC Exp7 C40 (2) (1).docx",
+      "size": 837248,
+      "url": "https://res.cloudinary.com/dalqoh0rr/raw/upload/v1776071704/assignments/CC%20Exp7%20C40%20%282%29%20%281%29.docx",
+      "uploadedAt": "2026-04-13T09:15:06.775Z",
+      "dueDateRaw": "2026-04-14T09:15:01.378Z"
+    },
+    {
+      "id": "17760717253070.35308323509926365",
+      "name": "STQA_Viva Questions-SET2.docx",
+      "size": 27482,
+      "url": "https://res.cloudinary.com/dalqoh0rr/raw/upload/v1776071723/assignments/STQA_Viva%20Questions-SET2.docx",
+      "uploadedAt": "2026-04-13T09:15:25.307Z",
+      "dueDateRaw": "2026-04-14T09:15:21.606Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "1775711747288",
+      "name": "Vedant",
+      "email": "vedantgpt29@gmail.com",
+      "password": "$2b$10$tw6d5vFj38aF/dLE3h24y.JF.AoU61f9j8Yanex5zYF6Z4W2Nqghi",
+      "role": "teacher",
+      "institution": "VIT",
+      "department": "IT",
+      "avatar": "V",
+      "createdAt": "2026-04-09T05:15:47.288Z"
+    },
+    {
+      "id": "1775712124692",
+      "name": "aryan",
+      "email": "aryan@gmail.com",
+      "password": "$2b$10$KB96nNIe/d9zvYLpCGTwJu4FXCqVBwMoO.29Uct11x74VvZQUpCsS",
+      "role": "student",
+      "institution": "",
+      "department": "",
+      "avatar": "A",
+      "createdAt": "2026-04-09T05:22:04.692Z"
+    }
+  ]
+}
