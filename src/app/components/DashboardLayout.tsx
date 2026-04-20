@@ -220,8 +220,8 @@ export function DashboardLayout() {
           </div>
           {(isDesktopExpanded || isSidebarOpen) && (
             <div className="whitespace-nowrap overflow-hidden origin-left transition-all duration-300">
-              <h1 className="font-semibold text-lg">AI Assignment Agent</h1>
-              <p className="text-xs text-purple-200">Powered by AI</p>
+              <h1 className="font-semibold text-lg">AsignAI</h1>
+              <p className="text-xs text-purple-200">AsignAI</p>
             </div>
           )}
         </button>
