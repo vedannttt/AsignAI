@@ -14,64 +14,75 @@ import {
   Clock,
   AlertTriangle,
   CalendarDays,
+  Timer,
+  ChevronRight,
+  BookOpen
 } from 'lucide-react';
 
 const features = [
   {
     icon: FileText,
     title: 'Generate Assignment',
-    description: 'Create custom assignments with AI in seconds',
+    description: 'AI-powered creation',
     path: '/dashboard/assignment-generator',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: Key,
-    title: 'Generate Answer Key',
-    description: 'Automatically create detailed answer keys',
-    path: '/dashboard/answer-key-generator',
-    color: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-100',
+    iconColor: 'text-purple-600',
   },
   {
     icon: Upload,
     title: 'Upload Assignment',
-    description: 'Upload and manage student submissions',
+    description: 'Upload for evaluation',
     path: '/dashboard/upload',
-    color: 'from-orange-500 to-red-500',
-  },
-  {
-    icon: CheckCircle2,
-    title: 'Evaluate Assignment',
-    description: 'AI-powered grading and assessment',
-    path: '/dashboard/evaluation',
-    color: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: Shield,
-    title: 'Plagiarism Checker',
-    description: 'Detect copied content and ensure originality',
-    path: '/dashboard/plagiarism-checker',
-    color: 'from-red-500 to-rose-500',
+    bgColor: 'bg-green-100',
+    iconColor: 'text-green-600',
   },
   {
     icon: MessageSquare,
-    title: 'Feedback',
-    description: 'Generate personalized student feedback',
+    title: 'Provide Feedback',
+    description: 'Send to students',
     path: '/dashboard/student-submissions',
-    color: 'from-indigo-500 to-purple-500',
+    bgColor: 'bg-indigo-100',
+    iconColor: 'text-indigo-600',
+  },
+  {
+    icon: Key,
+    title: 'Answer Key',
+    description: 'Auto-generate keys',
+    path: '/dashboard/answer-key-generator',
+    bgColor: 'bg-orange-100',
+    iconColor: 'text-orange-600',
+  },
+  {
+    icon: CheckCircle2,
+    title: 'Evaluate Work',
+    description: 'AI-powered grading',
+    path: '/dashboard/evaluation',
+    bgColor: 'bg-blue-100',
+    iconColor: 'text-blue-600',
+  },
+  {
+    icon: Shield,
+    title: 'Plagiarism Check',
+    description: 'Ensure originality',
+    path: '/dashboard/plagiarism-checker',
+    bgColor: 'bg-rose-100',
+    iconColor: 'text-rose-600',
   },
   {
     icon: Copy,
     title: 'Copy Detection',
-    description: 'Advanced similarity analysis',
+    description: 'Similarity analysis',
     path: '/dashboard/copy-detection',
-    color: 'from-teal-500 to-cyan-500',
+    bgColor: 'bg-teal-100',
+    iconColor: 'text-teal-600',
   },
 ];
 
 const stats = [
-  { label: 'Assignments Created', value: '1,234', icon: FileText, trend: '+12%' },
-  { label: 'Students Evaluated', value: '5,678', icon: Users, trend: '+8%' },
-  { label: 'Hours Saved', value: '890', icon: Clock, trend: '+23%' },
+  { label: 'Assignments Created', value: '24', icon: FileText, trend: '+15% vs last month', trendColor: 'text-green-500', iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
+  { label: 'Students Evaluated', value: '156', icon: CheckCircle2, trend: '+8% vs last month', trendColor: 'text-green-500', iconBg: 'bg-green-100', iconColor: 'text-green-600' },
+  { label: 'Avg. Class Grade', value: '78%', icon: TrendingUp, trend: '+5% vs last month', trendColor: 'text-green-500', iconBg: 'bg-orange-100', iconColor: 'text-orange-500' },
+  { label: 'Hours Saved', value: '46', icon: Clock, trend: '+20% vs last month', trendColor: 'text-green-500', iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
 ];
 
 export function DashboardHome() {
@@ -97,7 +108,6 @@ export function DashboardHome() {
               dataUrl: item.url,
               uploaderRole: item.uploaderRole || 'teacher'
             }));
-            // Store all assignments so we can cross-reference submissions
             setLiveAssignments(formatted);
           }
         })
@@ -131,7 +141,6 @@ export function DashboardHome() {
   const completedList: any[] = [];
 
   allAssignmentsList.forEach(task => {
-     // Check if student submitted this task
      const submission = studentSubmissionsList.find(sub => sub.targetAssignment === task.title);
      
      if (submission) {
@@ -361,110 +370,101 @@ export function DashboardHome() {
     );
   }
 
+  // Teacher Dashboard
   return (
-    <div className="p-4 lg:p-8 space-y-8 transition-colors">
+    <div className="p-4 lg:p-8 space-y-6 transition-colors bg-slate-50 min-h-screen">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold text-gray-900 dark:text-white mb-2">
-          Welcome back, {firstName} 👋
+        <h1 className="text-3xl font-bold text-slate-800 mb-1 flex items-center gap-2">
+          Welcome back, Dr. {firstName}! 👋
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Here's what's happening with your assignments today.
+        <p className="text-slate-500 text-sm">
+          Here's what's happening with your classes.
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all group"
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{stat.label}</p>
-                  <p className="text-3xl font-semibold text-gray-900 dark:text-white">{stat.value}</p>
+              <div className="flex flex-col">
+                <p className="text-xs text-slate-500 font-semibold mb-3">{stat.label}</p>
+                <div className="flex items-center justify-between mb-3">
+                   <p className="text-3xl font-bold text-slate-800">{stat.value}</p>
+                   <div className={`w-10 h-10 ${stat.iconBg} rounded-[10px] flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                     <Icon className={`w-5 h-5 ${stat.iconColor}`} />
+                   </div>
                 </div>
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="flex items-center gap-1 text-[11px] font-semibold tracking-wide">
+                  <TrendingUp className={`w-3 h-3 ${stat.trendColor}`} />
+                  <span className={stat.trendColor}>{stat.trend}</span>
                 </div>
-              </div>
-              <div className="mt-4 flex items-center gap-1 text-sm">
-                <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
-                <span className="text-green-600 dark:text-green-400 font-medium">{stat.trend}</span>
-                <span className="text-gray-500 dark:text-gray-400">vs last month</span>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Features Grid */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <Link
-                key={feature.path}
-                to={feature.path}
-                className="group bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 shadow-sm hover:shadow-xl transition-all duration-300"
-              >
-                <div
-                  className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-                >
-                  <Icon className="w-7 h-7 text-white" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+        {/* Recent Activity */}
+        <div className="lg:col-span-1 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col">
+          <div className="flex justify-between items-center mb-6">
+             <h2 className="text-lg font-bold text-slate-800">Recent Activity</h2>
+             <button className="text-sm font-semibold text-purple-600 hover:text-purple-700 flex items-center">View All <ChevronRight className="w-4 h-4 ml-0.5"/></button>
+          </div>
+          <div className="space-y-6 flex-1">
+            {[
+              { action: 'Generated assignment', subject: 'Mathematics - Calculus', time: '2 hours ago', icon: FileText, color: 'text-blue-500', bg: 'bg-blue-50' },
+              { action: 'Evaluated submission', subject: 'Physics - Mechanics', time: '5 hours ago', icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-50' },
+              { action: 'Checked plagiarism', subject: 'English - Essay Writing', time: '1 day ago', icon: Shield, color: 'text-rose-500', bg: 'bg-rose-50' },
+              { action: 'Upload assignment', subject: 'History - Chapter 4', time: '1 day ago', icon: Upload, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+            ].map((activity, index) => {
+               const ActIcon = activity.icon;
+               return (
+              <div key={index} className="flex items-start gap-4">
+                <div className={`w-10 h-10 rounded-full ${activity.bg} flex items-center justify-center shrink-0`}>
+                   <ActIcon className={`w-4 h-4 ${activity.color}`}/>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{feature.description}</p>
-                <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium text-sm">
-                  <span>Get started</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div>
+                  <h4 className="text-sm font-bold text-slate-800">{activity.action}</h4>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">{activity.subject}</p>
+                  <p className="text-[10px] text-slate-400 mt-1 uppercase font-bold">{activity.time}</p>
                 </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
-        <div className="space-y-4">
-          {[
-            {
-              action: 'Generated assignment',
-              subject: 'Mathematics - Calculus',
-              time: '2 hours ago',
-            },
-            {
-              action: 'Evaluated submission',
-              subject: 'Physics - Mechanics',
-              time: '5 hours ago',
-            },
-            {
-              action: 'Checked plagiarism',
-              subject: 'English - Essay Writing',
-              time: '1 day ago',
-            },
-          ].map((activity, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-4 py-3 border-b last:border-0 border-gray-100 dark:border-gray-700"
-            >
-              <div className="w-2 h-2 bg-purple-500 rounded-full" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900 dark:text-white">{activity.action}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{activity.subject}</p>
               </div>
-              <span className="text-xs text-gray-400">{activity.time}</span>
-            </div>
-          ))}
+            )})}
+          </div>
+        </div>
+
+        {/* Quick Actions Array grid */}
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+          <h2 className="text-lg font-bold text-slate-800 mb-6">Quick Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <Link
+                  key={feature.path}
+                  to={feature.path}
+                  className="flex items-center gap-4 bg-slate-50 rounded-xl p-4 border border-transparent hover:border-slate-200 transition-all hover:bg-slate-100 group"
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${feature.bgColor} ${feature.iconColor} shadow-sm group-hover:scale-105 transition-transform`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800 group-hover:text-purple-600 transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-[12px] text-slate-500 font-medium mt-0.5">{feature.description}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -8,7 +8,9 @@ export function AssignmentGenerator() {
     difficulty: 'medium',
     questions: '5',
     type: 'theoretical',
+    total_marks: 15,
   });
+  const [useCustomRubric, setUseCustomRubric] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedAssignment, setGeneratedAssignment] = useState('');
@@ -27,6 +29,7 @@ export function AssignmentGenerator() {
           difficulty: formData.difficulty,
           questions_count: parseInt(formData.questions) || 5,
           question_type: formData.type,
+          total_marks: useCustomRubric ? parseInt(formData.total_marks as any) || 15 : 15,
         }),
       });
 
@@ -163,6 +166,30 @@ export function AssignmentGenerator() {
                 max="20"
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
               />
+            </div>
+            
+            <div className="bg-purple-50 p-4 rounded-xl border border-purple-100 mb-4">
+               <label className="flex items-center space-x-3 cursor-pointer">
+                 <input 
+                    type="checkbox" 
+                    checked={useCustomRubric}
+                    onChange={(e) => setUseCustomRubric(e.target.checked)}
+                    className="w-5 h-5 text-purple-600 rounded border-gray-300 focus:ring-purple-500"
+                 />
+                 <span className="text-gray-800 font-medium text-sm">Enable Custom Rubric (Teacher Mode)</span>
+               </label>
+               {useCustomRubric && (
+                  <div className="mt-4">
+                     <label className="block text-sm font-medium text-gray-700 mb-2">Total Subject Marks (e.g., ISA - 15)</label>
+                     <input
+                       type="number"
+                       value={formData.total_marks}
+                       onChange={(e) => setFormData({ ...formData, total_marks: Number(e.target.value) })}
+                       min="1"
+                       className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
+                     />
+                  </div>
+               )}
             </div>
 
             <button

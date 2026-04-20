@@ -34,6 +34,7 @@ class AssignmentRequest(BaseModel):
     difficulty: str
     questions_count: int
     question_type: str
+    total_marks: int = 15
 
 @app.post("/generate-assignment")
 async def generate_assignment(req: AssignmentRequest):
@@ -54,7 +55,8 @@ async def generate_assignment(req: AssignmentRequest):
         else:
             prompt += "Provide ONLY numerical, mathematical, and practical calculative questions. No pure theory."
             
-        prompt += f" Ensure all {req.questions_count} questions are extremely distinct, completely new, and creative. [Random seed: {random_seed}]"
+        prompt += f" Ensure all {req.questions_count} questions are extremely distinct, completely new, and creative. [Random seed: {random_seed}]\n"
+        prompt += f"CRITICAL: You MUST include a Marking Rubric for these questions. Assign specific marks to each individual question based on its depth and difficulty (e.g. '[Marks: 4]'). The sum of all marks MUST be exactly {req.total_marks}. Display the rubric format clearly in the output."
         
         response = client.chat.completions.create(
             model="",
@@ -95,7 +97,8 @@ async def generate_assignment(req: AssignmentRequest):
 @app.post("/evaluate")
 async def evaluate_submission(
     assignment_file: UploadFile = File(...), 
-    answer_key_file: UploadFile = File(...)
+    answer_key_file: UploadFile = File(...),
+    rubric_file: UploadFile = File(None)
 ):
     # Quick PDF Reader Helper
     def extract_text(file_obj):
@@ -116,6 +119,12 @@ async def evaluate_submission(
         student_text = extract_text(assignment_content) if assignment_file.filename.endswith(".pdf") else assignment_content.decode("utf-8", errors="ignore")
         answer_key_text = extract_text(answer_key_content) if answer_key_file.filename.endswith(".pdf") else answer_key_content.decode("utf-8", errors="ignore")
         
+        rubric_text = ""
+        if rubric_file is not None:
+             rubric_content = await rubric_file.read()
+             rubric_text = extract_text(rubric_content) if rubric_file.filename.endswith(".pdf") else rubric_content.decode("utf-8", errors="ignore")
+             if len(rubric_text) > 1000: rubric_text = rubric_text[:1000]
+
         # FIX: Added limit to prompt size so small model doesn't overfill
         if len(student_text) > 1000: student_text = student_text[:1000]
         if len(answer_key_text) > 1000: answer_key_text = answer_key_text[:1000]
@@ -132,6 +141,8 @@ Do NOT use generic boilerplate.
 
 Answer Key Text:
 {answer_key_text}
+
+{("Rubric Text:\n" + rubric_text + "\n\nCRITICAL: Strictly evaluate the student submission based on this Rubric.") if rubric_text else ""}
 
 Student Submission Text:
 {student_text}

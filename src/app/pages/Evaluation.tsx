@@ -6,6 +6,7 @@ export function Evaluation() {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [studentFile, setStudentFile] = useState<File | null>(null);
   const [answerKeyFile, setAnswerKeyFile] = useState<File | null>(null);
+  const [rubricFile, setRubricFile] = useState<File | null>(null);
   const [evaluationFeedback, setEvaluationFeedback] = useState<string>('');
   const [evaluationScore, setEvaluationScore] = useState<string>('0');
   const [stats, setStats] = useState({ correct: '7/10', accuracy: '70%', improvement: '+12%', needsWork: '3' });
@@ -18,6 +19,9 @@ export function Evaluation() {
       const formData = new FormData();
       formData.append('assignment_file', studentFile);
       formData.append('answer_key_file', answerKeyFile);
+      if (rubricFile) {
+        formData.append('rubric_file', rubricFile);
+      }
 
       const response = await fetch('http://localhost:8000/evaluate', {
         method: 'POST',
@@ -60,7 +64,7 @@ export function Evaluation() {
       </div>
 
       {step === 'upload' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Upload Assignment */}
           <div className="bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 shadow-sm">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
@@ -113,8 +117,33 @@ export function Evaluation() {
             </label>
           </div>
 
+          {/* Upload Rubric (Optional) */}
+          <div className="bg-white rounded-2xl p-6 lg:p-8 border border-gray-100 shadow-sm">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Rubric (Optional)</h2>
+            <label className={`block border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer ${rubricFile ? 'border-purple-500 bg-purple-50' : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'}`}>
+              <input type="file" className="hidden" accept=".pdf,.doc,.docx,.txt" onChange={(e) => setRubricFile(e.target.files?.[0] || null)} />
+              {rubricFile ? (
+                <div>
+                    <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <CheckCircle2 className="w-8 h-8 text-purple-600" />
+                    </div>
+                    <p className="text-sm font-semibold text-purple-700 mb-1">{rubricFile.name}</p>
+                    <p className="text-xs text-purple-500">Ready to apply rubric</p>
+                </div>
+              ) : (
+                <div>
+                  <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Upload className="w-8 h-8 text-orange-600" />
+                  </div>
+                  <p className="text-sm font-medium text-gray-700 mb-1">Upload Rubric</p>
+                  <p className="text-xs text-gray-500">PDF, DOC, TXT</p>
+                </div>
+              )}
+            </label>
+          </div>
+
           {/* Evaluate Button */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <button
               onClick={handleEvaluate}
               disabled={isEvaluating || !studentFile || !answerKeyFile}
